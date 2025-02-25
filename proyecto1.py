@@ -1,4 +1,4 @@
-import pygame
+import 
 
 # Configuraciones iniciales
 ANCHO_VENTANA = 800
