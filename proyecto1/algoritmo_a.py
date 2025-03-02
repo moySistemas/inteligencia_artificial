@@ -106,10 +106,12 @@ def main(ventana, ancho):
                 if not inicio and nodo != fin:
                     inicio = nodo
                     inicio.hacer_inicio()
+                    print(f"Inicio: {inicio.get_pos()}")
 
                 elif not fin and nodo != inicio:
                     fin = nodo
                     fin.hacer_fin()
+                    print(f"Fin: {fin.get_pos()}")
 
                 elif nodo != fin and nodo != inicio:
                     nodo.hacer_pared()
