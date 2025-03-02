@@ -90,7 +90,20 @@ def main(ventana, ancho):
 
     inicio = None
     fin = None
+    #En esta lista voy a guardar los obstaculos
+    obstaculos = []
 
+    #La matriz vacia. En este punto no tiene 
+    #ni los obstaculos ni inicio ni fin
+    matriz = []
+    for i in range(FILAS):
+        fila = []
+        for j in range(FILAS):
+            fila.append('.')
+        matriz.append(fila)
+
+
+    #print(matriz)
     corriendo = True
 
     while corriendo:
@@ -106,15 +119,22 @@ def main(ventana, ancho):
                 if not inicio and nodo != fin:
                     inicio = nodo
                     inicio.hacer_inicio()
+                    #Aqui se envia un marcador a la matriz (0 para el inciio)
+                    matriz[fila][col] = '0'
                     print(f"Inicio: {inicio.get_pos()}")
 
                 elif not fin and nodo != inicio:
                     fin = nodo
                     fin.hacer_fin()
+                    #Aqui se envia un marcador a la matriz (1 para el fin)
+                    matriz[fila][col] = '1'
                     print(f"Fin: {fin.get_pos()}")
 
                 elif nodo != fin and nodo != inicio:
                     nodo.hacer_pared()
+                    obstaculos.append((fila,col))
+                    matriz[fila][col] = 'X' #Se envia un X para los obstaculos
+                    print(f"Obstaculo detectado en: ({fila},{col})")
 
             elif pygame.mouse.get_pressed()[2]:  # Click derecho
                 pos = pygame.mouse.get_pos()
@@ -125,6 +145,9 @@ def main(ventana, ancho):
                     inicio = None
                 elif nodo == fin:
                     fin = None
+
+    for fila in matriz:
+        print(' '.join(fila))
 
     pygame.quit()
 
