@@ -17,6 +17,13 @@ mapa[3, 3:7] = 1
 mapa[6, 2:8] = 1
 
 
+#Inicio(punto de partida), meta(punto final)
+#tupla(fila,columna)
+inicio = (0,0)
+meta = (9,9)
+mapa[inicio] = "I"
+mapa[meta] = "M"
+
 
 print(mapa)
 
