@@ -48,6 +48,13 @@ def algoritmo_a_estrella(mapa, inicio, meta):
         if nodo_actual == meta:
             return []
         lista_abierta.remove(nodo_actual)
-  
+
+        for movimiento_fila, movimiento_columna in movimientos:
+            vecino = (nodo_actual[0] + movimiento_fila, nodo_actual[1] + movimiento_columna)
+            if 0 <= vecino[0] < 10 and 0 <= vecino[1] < 10 and mapa[vecino] == 0:
+                lista_abierta.append(vecino)
+
+
+
 
 print(heuristica(inicio,meta))
