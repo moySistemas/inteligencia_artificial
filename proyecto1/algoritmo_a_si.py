@@ -36,6 +36,13 @@ def heuristica(nodo_actual, nodo_destino):
     return abs(nodo_actual[0] - nodo_destino[0]) + abs(nodo_actual[1] - nodo_destino[1])
 
 
+def algoritmo_a_estrella(mapa, inicio, meta):
+    lista_abierta = [inicio] 
+    camino_desde = {}  
+    costo_real = {inicio: 0}  
+    costo_estimado = {inicio: heuristica(inicio, meta)}
 
+
+      
 
 print(heuristica(inicio,meta))
