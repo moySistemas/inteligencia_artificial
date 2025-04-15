@@ -25,10 +25,16 @@ meta = (7,8)
 mapa[inicio] = 3
 mapa[meta] = 4
 
+# Movimientos posibles: (fila, columna)
+#Los moviemientos son: Derecha, abajo, izquierda, arriba
+movimientos = [(0, 1), (1, 0), (0, -1), (-1, 0)]  
 
 
-def heuristica(inicio,meta):
-	    abs(inicio[0] - meta[0]) + abs(inicio[1] - meta[1])
+
+#Función heurística - Distancia de Manhattan
+def heuristica(nodo_actual, nodo_destino):
+    return abs(nodo_actual[0] - nodo_destino[0]) + abs(nodo_actual[1] - nodo_destino[1])
+
 
 
 
