@@ -70,4 +70,12 @@ def algoritmo_a_estrella(mapa, inicio, meta):
 
 
 
-print(heuristica(inicio,meta))
+camino_optimo = algoritmo_a_estrella(mapa, inicio, meta)
+
+
+if camino_optimo:
+    for posicion in camino_optimo:
+        mapa[posicion] = 2  
+    print(mapa)
+else:
+    print("No hay camino disponible.")
