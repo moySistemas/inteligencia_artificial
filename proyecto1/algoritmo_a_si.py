@@ -43,6 +43,11 @@ def algoritmo_a_estrella(mapa, inicio, meta):
     costo_estimado = {inicio: heuristica(inicio, meta)}
 
 
-      
+    while lista_abierta:
+    	nodo_actual = min(lista_abierta, key=lambda x: costo_estimado.get(x, float('inf')))
+        if nodo_actual == meta:
+            return []
+        lista_abierta.remove(nodo_actual)
+  
 
 print(heuristica(inicio,meta))
