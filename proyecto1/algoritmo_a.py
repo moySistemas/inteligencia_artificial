@@ -108,6 +108,7 @@ def heuristica(nodo_actual, nodo_destino):
 # Función A*
 def algoritmo_a_estrella(mapa, inicio, meta, grid):
     lista_abierta = [inicio]
+    lista_cerrada = []
     camino_desde = {}
     costo_real = {inicio: 0}
     costo_estimado = {inicio: heuristica(inicio, meta)}
@@ -120,9 +121,16 @@ def algoritmo_a_estrella(mapa, inicio, meta, grid):
             while nodo_actual in camino_desde:
                 camino.append(nodo_actual)
                 nodo_actual = camino_desde[nodo_actual]
+
+            # Imprimir lista cerrada
+            print("Lista cerrada (nodos visitados):")
+            for nodo in lista_cerrada:
+                print(nodo)
             return camino[::-1]
 
         lista_abierta.remove(nodo_actual)
+        if nodo_actual not in lista_cerrada:
+            lista_cerrada.append(nodo_actual)
 
         for movimiento_fila, movimiento_col in movimientos:
             vecino = (nodo_actual[0] + movimiento_fila, nodo_actual[1] + movimiento_col)
@@ -144,6 +152,7 @@ def algoritmo_a_estrella(mapa, inicio, meta, grid):
                     if vecino not in lista_abierta:
                         lista_abierta.append(vecino)
 
+    print("No se encontró camino.")
     return None
 
 # Configuración de la cuadrícula y movimientos
