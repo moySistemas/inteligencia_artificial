@@ -1,5 +1,35 @@
 import pygame
 import random
+import csv
+import os
+
+# Crear o abrir archivo CSV
+archivo_csv = open('datos_entrenamiento.csv', mode='a', newline='')
+escribir_csv = csv.writer(archivo_csv)
+
+# Escribir encabezados si el archivo está vacío
+if os.stat('datos_entrenamiento.csv').st_size == 0:
+    escribir_csv.writerow([
+        'nave_x', 'nave_y',
+        'jugador_x', 'jugador_y',
+        'bala_x', 'bala_y',
+        'velocidad_bala',
+        'saltar',
+        'colision'
+    ])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Inicializar Pygame
 pygame.init()
@@ -140,9 +170,12 @@ def update():
 
     pantalla.blit(bala_img, (bala.x, bala.y))
 
+    
     # Colisión entre la bala y el jugador
+    colision = 0
     if jugador.colliderect(bala):
         print("Colisión detectada!")
+        colision = 1
         #reiniciar_juego()  # Terminar el juego y mostrar el menú
 
 
@@ -161,12 +194,30 @@ def update():
 
 
     #ESTE CODIGO MUESTRA SI EL USUARIO SALTO O NO
+    saltar = 0
     if salto:
         texto_salto = fuente.render("¡Saltando!", True, NEGRO)
         pantalla.blit(texto_salto, (10, 110))  # Mostrar texto en la posición deseada
+        saltar = 1
     else:
         texto_salto = fuente.render("No saltando", True, NEGRO)
         pantalla.blit(texto_salto, (10, 110))  # Mostrar texto en la posición deseada
+        saltar = 0
+
+
+
+
+
+        # Guardar datos en el CSV
+    escribir_csv.writerow([
+        nave.x, nave.y,
+        jugador.x, jugador.y,
+        bala.x, bala.y,
+        velocidad_bala,
+        saltar,
+        colision
+    ])
+
 
 
 
