@@ -143,7 +143,7 @@ def update():
     # Colisión entre la bala y el jugador
     if jugador.colliderect(bala):
         print("Colisión detectada!")
-        reiniciar_juego()  # Terminar el juego y mostrar el menú
+        #reiniciar_juego()  # Terminar el juego y mostrar el menú
 
 
 
