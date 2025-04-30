@@ -152,12 +152,21 @@ def update():
     texto_nave = fuente.render(f"Nave: (x={nave.x}, y={nave.y})", True, NEGRO)
     texto_jugador = fuente.render(f"Jugador: (x={jugador.x}, y={jugador.y})", True, NEGRO)
     texto_bala = fuente.render(f"Bala: (x={bala.x}, y={bala.y})", True, NEGRO)
-    texto_vel = fuente.render(f"Velocidad Bala: {abs(velocidad_bala)}", True, NEGRO)
+    texto_vel = fuente.render(f"Velocidad Bala: {velocidad_bala}", True, NEGRO)
 
     pantalla.blit(texto_nave, (10, 10))
     pantalla.blit(texto_jugador, (10, 35))
     pantalla.blit(texto_bala, (10, 60))
     pantalla.blit(texto_vel, (10, 85))
+
+
+    #ESTE CODIGO MUESTRA SI EL USUARIO SALTO O NO
+    if salto:
+        texto_salto = fuente.render("¡Saltando!", True, NEGRO)
+        pantalla.blit(texto_salto, (10, 110))  # Mostrar texto en la posición deseada
+    else:
+        texto_salto = fuente.render("No saltando", True, NEGRO)
+        pantalla.blit(texto_salto, (10, 110))  # Mostrar texto en la posición deseada
 
 
 
