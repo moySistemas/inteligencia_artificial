@@ -1,35 +1,5 @@
 import pygame
 import random
-import csv
-import os
-
-# Crear o abrir archivo CSV
-archivo_csv = open('datos_entrenamiento.csv', mode='a', newline='')
-escribir_csv = csv.writer(archivo_csv)
-
-# Escribir encabezados si el archivo está vacío
-if os.stat('datos_entrenamiento.csv').st_size == 0:
-    escribir_csv.writerow([
-        'nave_x', 'nave_y',
-        'jugador_x', 'jugador_y',
-        'bala_x', 'bala_y',
-        'velocidad_bala',
-        'saltar',
-        'colision'
-    ])
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Inicializar Pygame
 pygame.init()
@@ -99,6 +69,22 @@ bala_disparada = False
 # Variables para el fondo en movimiento
 fondo_x1 = 0
 fondo_x2 = w
+
+
+
+
+
+#AGREGANDO LA BALA 2
+
+
+
+
+
+
+
+
+
+
 
 # Función para disparar la bala
 def disparar_bala():
@@ -170,58 +156,10 @@ def update():
 
     pantalla.blit(bala_img, (bala.x, bala.y))
 
-    
     # Colisión entre la bala y el jugador
-    colision = 0
     if jugador.colliderect(bala):
         print("Colisión detectada!")
-        colision = 1
-        #reiniciar_juego()  # Terminar el juego y mostrar el menú
-
-
-
-    #ESTE CODIGO IMPRIME LAS COORDENADAS DE LOS COMPONENTES DEL JUEGO
-    # Mostrar coordenadas y velocidad en pantalla con etiquetas x, y
-    texto_nave = fuente.render(f"Nave: (x={nave.x}, y={nave.y})", True, NEGRO)
-    texto_jugador = fuente.render(f"Jugador: (x={jugador.x}, y={jugador.y})", True, NEGRO)
-    texto_bala = fuente.render(f"Bala: (x={bala.x}, y={bala.y})", True, NEGRO)
-    texto_vel = fuente.render(f"Velocidad Bala: {velocidad_bala}", True, NEGRO)
-
-    pantalla.blit(texto_nave, (10, 10))
-    pantalla.blit(texto_jugador, (10, 35))
-    pantalla.blit(texto_bala, (10, 60))
-    pantalla.blit(texto_vel, (10, 85))
-
-
-    #ESTE CODIGO MUESTRA SI EL USUARIO SALTO O NO
-    saltar = 0
-    if salto:
-        texto_salto = fuente.render("¡Saltando!", True, NEGRO)
-        pantalla.blit(texto_salto, (10, 110))  
-        saltar = 1
-    else:
-        texto_salto = fuente.render("No saltando", True, NEGRO)
-        pantalla.blit(texto_salto, (10, 110))  
-        saltar = 0
-
-
-
-
-
-        # Guardar datos en el CSV
-    escribir_csv.writerow([
-        nave.x, nave.y,
-        jugador.x, jugador.y,
-        bala.x, bala.y,
-        velocidad_bala,
-        saltar,
-        colision
-    ])
-
-
-
-
-
+        reiniciar_juego()  # Terminar el juego y mostrar el menú
 
 # Función para guardar datos del modelo en modo manual
 def guardar_datos():
@@ -243,27 +181,86 @@ def pausa_juego():
 # Función para mostrar el menú y seleccionar el modo de juego
 def mostrar_menu():
     global menu_activo, modo_auto
-    pantalla.fill(NEGRO)
-    texto = fuente.render("Presiona 'A' para Auto, 'M' para Manual, o 'Q' para Salir", True, BLANCO)
-    pantalla.blit(texto, (w // 4, h // 2))
-    pygame.display.flip()
+
+    # Botones
+    #boton_auto = pygame.Rect(w // 4, h // 2 - 60, 200, 50)
+    #boton_manual = pygame.Rect(w // 4, h // 2, 200, 50)
+    #boton_salir = pygame.Rect(w // 4, h // 2 + 60, 200, 50)
+
+    ancho_boton = 200
+    alto_boton = 50
+    ancho_check = 30  
+    alto_check = 30
+
+
+    # Centrar los botones en la pantalla
+    boton_auto = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2 - 60, ancho_boton, alto_boton)
+    boton_manual = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2, ancho_boton, alto_boton)
+    boton_salir = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2 + 60, ancho_boton, alto_boton)
+
+    boton_extra = pygame.Rect(10, h - alto_boton - 10, ancho_boton, alto_boton)
+
+
+
+
+
 
     while menu_activo:
+        pantalla.blit(fondo_img, (0, 0))
+
+        # Dibujar botones
+        pygame.draw.rect(pantalla, (0, 128, 255), boton_auto)
+        pygame.draw.rect(pantalla, (0, 200, 100), boton_manual)
+        pygame.draw.rect(pantalla, (200, 50, 50), boton_salir)
+
+
+        pygame.draw.rect(pantalla, (0, 0, 0), boton_extra)
+
+
+
+  
+
+
+        # Dibujar texto sobre botones
+        texto_a = fuente.render("Modo Auto", True, BLANCO)
+        texto_m = fuente.render("Modo Manual", True, BLANCO)
+        texto_q = fuente.render("Salir", True, BLANCO)
+
+        texto_e = fuente.render("DATASET", True, BLANCO)
+
+
+
+        pantalla.blit(texto_a, (boton_auto.x + 20, boton_auto.y + 10))
+        pantalla.blit(texto_m, (boton_manual.x + 20, boton_manual.y + 10))
+        pantalla.blit(texto_q, (boton_salir.x + 20, boton_salir.y + 10))
+
+        pantalla.blit(texto_e, (boton_extra.x + 20, boton_extra.y + 10))
+
+
+ 
+
+
+        pygame.display.flip()
+
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            if evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_a:
+
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if boton_auto.collidepoint(evento.pos):
                     modo_auto = True
                     menu_activo = False
-                elif evento.key == pygame.K_m:
+                elif boton_manual.collidepoint(evento.pos):
                     modo_auto = False
                     menu_activo = False
-                elif evento.key == pygame.K_q:
+                elif boton_salir.collidepoint(evento.pos):
                     print("Juego terminado. Datos recopilados:", datos_modelo)
                     pygame.quit()
                     exit()
+                elif boton_extra.collidepoint(evento.pos):
+                    print("Quieres usar el dataset pre-hecho")
+
 
 # Función para reiniciar el juego tras la colisión
 def reiniciar_juego():

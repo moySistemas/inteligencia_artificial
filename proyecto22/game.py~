@@ -1,35 +1,5 @@
 import pygame
 import random
-import csv
-import os
-
-# Crear o abrir archivo CSV
-archivo_csv = open('datos_entrenamiento.csv', mode='a', newline='')
-escribir_csv = csv.writer(archivo_csv)
-
-# Escribir encabezados si el archivo está vacío
-if os.stat('datos_entrenamiento.csv').st_size == 0:
-    escribir_csv.writerow([
-        'nave_x', 'nave_y',
-        'jugador_x', 'jugador_y',
-        'bala_x', 'bala_y',
-        'velocidad_bala',
-        'saltar',
-        'colision'
-    ])
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Inicializar Pygame
 pygame.init()
@@ -93,7 +63,7 @@ frame_speed = 10  # Cuántos frames antes de cambiar a la siguiente imagen
 frame_count = 0
 
 # Variables para la bala
-velocidad_bala = -10  # Velocidad de la bala hacia la izquierda
+velocidad_bala = -5  # Velocidad de la bala hacia la izquierda
 bala_disparada = False
 
 # Variables para el fondo en movimiento
@@ -170,58 +140,10 @@ def update():
 
     pantalla.blit(bala_img, (bala.x, bala.y))
 
-    
     # Colisión entre la bala y el jugador
-    colision = 0
     if jugador.colliderect(bala):
         print("Colisión detectada!")
-        colision = 1
-        #reiniciar_juego()  # Terminar el juego y mostrar el menú
-
-
-
-    #ESTE CODIGO IMPRIME LAS COORDENADAS DE LOS COMPONENTES DEL JUEGO
-    # Mostrar coordenadas y velocidad en pantalla con etiquetas x, y
-    texto_nave = fuente.render(f"Nave: (x={nave.x}, y={nave.y})", True, NEGRO)
-    texto_jugador = fuente.render(f"Jugador: (x={jugador.x}, y={jugador.y})", True, NEGRO)
-    texto_bala = fuente.render(f"Bala: (x={bala.x}, y={bala.y})", True, NEGRO)
-    texto_vel = fuente.render(f"Velocidad Bala: {velocidad_bala}", True, NEGRO)
-
-    pantalla.blit(texto_nave, (10, 10))
-    pantalla.blit(texto_jugador, (10, 35))
-    pantalla.blit(texto_bala, (10, 60))
-    pantalla.blit(texto_vel, (10, 85))
-
-
-    #ESTE CODIGO MUESTRA SI EL USUARIO SALTO O NO
-    saltar = 0
-    if salto:
-        texto_salto = fuente.render("¡Saltando!", True, NEGRO)
-        pantalla.blit(texto_salto, (10, 110))  
-        saltar = 1
-    else:
-        texto_salto = fuente.render("No saltando", True, NEGRO)
-        pantalla.blit(texto_salto, (10, 110))  
-        saltar = 0
-
-
-
-
-
-        # Guardar datos en el CSV
-    escribir_csv.writerow([
-        nave.x, nave.y,
-        jugador.x, jugador.y,
-        bala.x, bala.y,
-        velocidad_bala,
-        saltar,
-        colision
-    ])
-
-
-
-
-
+        reiniciar_juego()  # Terminar el juego y mostrar el menú
 
 # Función para guardar datos del modelo en modo manual
 def guardar_datos():

@@ -3,7 +3,7 @@ import numpy as np
 
 # Configuraciones iniciales
 pygame.init()
-ANCHO_VENTANA = 500
+ANCHO_VENTANA = 1000
 VENTANA = pygame.display.set_mode((ANCHO_VENTANA, ANCHO_VENTANA))
 pygame.display.set_caption("Visualización de Nodos")
 
