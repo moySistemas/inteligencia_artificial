@@ -86,6 +86,7 @@ fondo_x2 = w
 
 
 
+
 # Función para disparar la bala
 def disparar_bala():
     global bala_disparada, velocidad_bala
@@ -197,10 +198,12 @@ def mostrar_menu():
     boton_auto = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2 - 60, ancho_boton, alto_boton)
     boton_manual = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2, ancho_boton, alto_boton)
     boton_salir = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2 + 60, ancho_boton, alto_boton)
-
-    boton_extra = pygame.Rect(10, h - alto_boton - 10, ancho_boton, alto_boton)
-
-
+    #boton_extra = pygame.Rect(10, h - alto_boton - 10, ancho_boton, alto_boton)
+    boton_extra = pygame.Rect(10, h - alto_boton - 10, 100, alto_boton)  # Cambié ancho a 100 para igualar mods
+    boton_mod1 = pygame.Rect(boton_extra.right + 10, boton_extra.top, 100, alto_boton)
+    boton_mod2 = pygame.Rect(boton_mod1.right + 10, boton_extra.top, 100, alto_boton)
+    boton_mod3 = pygame.Rect(boton_mod2.right + 10, boton_extra.top, 100, alto_boton)
+    boton_mod4 = pygame.Rect(boton_mod3.right + 10, boton_extra.top, 100, alto_boton)
 
 
 
@@ -212,30 +215,36 @@ def mostrar_menu():
         pygame.draw.rect(pantalla, (0, 128, 255), boton_auto)
         pygame.draw.rect(pantalla, (0, 200, 100), boton_manual)
         pygame.draw.rect(pantalla, (200, 50, 50), boton_salir)
+        pygame.draw.rect(pantalla, (50, 101, 221), boton_extra)
+        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod1)
+        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod2)
+        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod3)
+        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod4)
 
-
-        pygame.draw.rect(pantalla, (0, 0, 0), boton_extra)
-
-
-
-  
 
 
         # Dibujar texto sobre botones
         texto_a = fuente.render("Modo Auto", True, BLANCO)
         texto_m = fuente.render("Modo Manual", True, BLANCO)
         texto_q = fuente.render("Salir", True, BLANCO)
+        texto_e = fuente.render("Data", True, BLANCO)
+        texto_mod1 = fuente.render("Mod 1", True, BLANCO)
+        texto_mod2 = fuente.render("Mod 2", True, BLANCO)
+        texto_mod3 = fuente.render("Mod 3", True, BLANCO)
+        texto_mod4 = fuente.render("Mod 4", True, BLANCO)
 
-        texto_e = fuente.render("DATASET", True, BLANCO)
+
 
 
 
         pantalla.blit(texto_a, (boton_auto.x + 20, boton_auto.y + 10))
         pantalla.blit(texto_m, (boton_manual.x + 20, boton_manual.y + 10))
         pantalla.blit(texto_q, (boton_salir.x + 20, boton_salir.y + 10))
-
         pantalla.blit(texto_e, (boton_extra.x + 20, boton_extra.y + 10))
-
+        pantalla.blit(texto_mod1, (boton_mod1.x + 20, boton_mod1.y + 10))
+        pantalla.blit(texto_mod2, (boton_mod2.x + 20, boton_mod2.y + 10))
+        pantalla.blit(texto_mod3, (boton_mod3.x + 20, boton_mod3.y + 10))
+        pantalla.blit(texto_mod4, (boton_mod4.x + 20, boton_mod4.y + 10))
 
  
 
@@ -260,6 +269,27 @@ def mostrar_menu():
                     exit()
                 elif boton_extra.collidepoint(evento.pos):
                     print("Quieres usar el dataset pre-hecho")
+
+
+
+                elif boton_mod1.collidepoint(evento.pos):
+                    print("Mod 1 seleccionado")
+
+                elif boton_mod2.collidepoint(evento.pos):
+                    print("Mod 2 seleccionado")
+                    
+                elif boton_mod3.collidepoint(evento.pos):
+                    print("Mod 3 seleccionado")
+                    
+                elif boton_mod4.collidepoint(evento.pos):
+                    print("Mod 4 seleccionado")
+
+
+
+
+
+
+
 
 
 # Función para reiniciar el juego tras la colisión
