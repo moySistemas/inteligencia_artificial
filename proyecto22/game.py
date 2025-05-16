@@ -350,6 +350,9 @@ def main():
     correr = True
 
     while correr:
+
+
+
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 correr = False
@@ -364,7 +367,29 @@ def main():
                     pygame.quit()
                     exit()
 
+
+        teclas = pygame.key.get_pressed()
+
         if not pausa:
+
+
+
+            if teclas[pygame.K_LEFT]:
+                jugador.x -= 5  # Mover a la izquierda
+            if teclas[pygame.K_RIGHT]:
+                jugador.x += 5  # Mover a la derecha
+
+            # Limitar el movimiento dentro de la pantalla
+            if jugador.x < 0:
+                jugador.x = 0
+            if jugador.x > w - jugador.width:
+                jugador.x = w - jugador.width
+
+
+
+
+
+            
             # Modo manual: el jugador controla el salto
             if not modo_auto:
                 if salto:
@@ -375,6 +400,8 @@ def main():
             # Actualizar el juego
             if not bala_disparada:
                 disparar_bala()
+            
+
             update()
 
         # Actualizar la pantalla
