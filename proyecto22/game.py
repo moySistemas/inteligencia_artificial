@@ -75,6 +75,10 @@ fondo_x2 = w
 
 
 #AGREGANDO LA BALA 2
+# Variables para la bala 2 (caída vertical)
+bala2 = pygame.Rect(random.randint(100, w - 100), -50, 16, 16)
+velocidad_bala2 = random.randint(3, 7)
+bala2_disparada = False
 
 
 
@@ -118,6 +122,7 @@ def manejar_salto():
 # Función para actualizar el juego
 def update():
     global bala, velocidad_bala, current_frame, frame_count, fondo_x1, fondo_x2
+    global bala2, velocidad_bala2, bala2_disparada
 
     # Mover el fondo
     fondo_x1 -= 1
@@ -157,10 +162,28 @@ def update():
 
     pantalla.blit(bala_img, (bala.x, bala.y))
 
-    # Colisión entre la bala y el jugador
-    if jugador.colliderect(bala):
+
+
+
+    # Bala 2 (vertical)
+    if not bala2_disparada:
+        velocidad_bala2 = random.randint(3, 7)
+        bala2_disparada = True
+    bala2.y += velocidad_bala2
+    if bala2.y > h:
+        # Reiniciar posición para que vuelva a caer
+        bala2.y = -50
+        bala2.x = jugador.x
+        velocidad_bala2 = random.randint(3, 7)
+    pantalla.blit(bala_img, (bala2.x, bala2.y))  # Puedes usar la misma imagen
+
+
+
+    if jugador.colliderect(bala) or jugador.colliderect(bala2):
         print("Colisión detectada!")
-        reiniciar_juego()  # Terminar el juego y mostrar el menú
+        reiniciar_juego()
+
+
 
 # Función para guardar datos del modelo en modo manual
 def guardar_datos():
@@ -295,6 +318,7 @@ def mostrar_menu():
 # Función para reiniciar el juego tras la colisión
 def reiniciar_juego():
     global menu_activo, jugador, bala, nave, bala_disparada, salto, en_suelo
+    global bala2, bala2_disparada, velocidad_bala2
     menu_activo = True  # Activar de nuevo el menú
     jugador.x, jugador.y = 50, h - 100  # Reiniciar posición del jugador
     bala.x = w - 50  # Reiniciar posición de la bala
@@ -305,6 +329,18 @@ def reiniciar_juego():
     # Mostrar los datos recopilados hasta el momento
     print("Datos recopilados para el modelo: ", datos_modelo)
     mostrar_menu()  # Mostrar el menú de nuevo para seleccionar modo
+
+    # Reiniciar bala 2
+    bala2.x = random.randint(100, w - 100)
+    bala2.y = -50
+    velocidad_bala2 = random.randint(3, 7)
+    bala2_disparada = False
+
+    print("Datos recopilados para el modelo: ", datos_modelo)
+    mostrar_menu()
+
+
+
 
 def main():
     global salto, en_suelo, bala_disparada
