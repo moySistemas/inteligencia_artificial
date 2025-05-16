@@ -287,7 +287,7 @@ def mostrar_menu():
                     modo_auto = False
                     menu_activo = False
                 elif boton_salir.collidepoint(evento.pos):
-                    print("Juego terminado. Datos recopilados:", datos_modelo)
+                    #print("Juego terminado. Datos recopilados:", datos_modelo)
                     pygame.quit()
                     exit()
                 elif boton_extra.collidepoint(evento.pos):
@@ -336,8 +336,8 @@ def reiniciar_juego():
     velocidad_bala2 = random.randint(3, 7)
     bala2_disparada = False
 
-    print("Datos recopilados para el modelo: ", datos_modelo)
-    mostrar_menu()
+    #print("Datos recopilados para el modelo: ", datos_modelo)
+    #mostrar_menu()
 
 
 
