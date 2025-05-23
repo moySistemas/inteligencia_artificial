@@ -1,5 +1,37 @@
 import pygame
 import random
+import csv
+import os
+import pandas as pd
+
+
+
+
+
+
+
+archivo_csv = open('datos_entrenamiento.csv', mode='a', newline='')
+escribir_csv = csv.writer(archivo_csv)
+
+
+if os.stat('datos_entrenamiento.csv').st_size == 0:
+    escribir_csv.writerow([
+        'nave_x', 'nave_y',
+        'jugador_x', 'jugador_y',
+        'bala1_x', 'bala1_y',
+        'velocidad_bala1',
+        'saltar',
+        'colision_bala1',
+        'bala2_x', 'bala2_y',
+        'velocidad_bala2',
+        'tecla_izquierda', 'tecla_ninguna', 'tecla_derecha'
+    ])
+
+
+
+
+
+
 
 # Inicializar Pygame
 pygame.init()
@@ -79,9 +111,6 @@ fondo_x2 = w
 bala2 = pygame.Rect(random.randint(100, w - 100), -50, 16, 16)
 velocidad_bala2 = random.randint(3, 7)
 bala2_disparada = False
-
-
-
 
 
 
@@ -178,10 +207,78 @@ def update():
     pantalla.blit(bala_img, (bala2.x, bala2.y))  # Puedes usar la misma imagen
 
 
-
+    colision_bala1 = 0
     if jugador.colliderect(bala) or jugador.colliderect(bala2):
         print("Colisión detectada!")
+        colision_bala1 = 1
         reiniciar_juego()
+
+
+
+    #Imprimir valores en la pantalla
+    texto_nave = fuente.render(f"Nave: (x={nave.x}, y={nave.y})", True, NEGRO)
+    texto_jugador = fuente.render(f"Jugador: (x={jugador.x}, y={jugador.y})", True, NEGRO)
+    texto_bala = fuente.render(f"Bala 1: (x={bala.x}, y={bala.y})", True, NEGRO)
+    texto_vel = fuente.render(f"Velocidad Bala 1: {velocidad_bala}", True, NEGRO)
+    texto_bala2 = fuente.render(f"Bala 2: (x={bala2.x}, y={bala2.y})", True, NEGRO)
+    texto_vel2 = fuente.render(f"Velocidad Bala 2: {velocidad_bala2}", True, NEGRO)
+        
+    pantalla.blit(texto_nave, (10, 10))
+    pantalla.blit(texto_jugador, (10, 35))
+    pantalla.blit(texto_bala, (10, 60))
+    pantalla.blit(texto_vel, (10, 85))
+    pantalla.blit(texto_bala2,(10,135))
+    pantalla.blit(texto_vel2,(10,160))
+
+
+    saltar = 0
+    if salto:
+        texto_salto = fuente.render("¡Saltando!", True, NEGRO)
+        pantalla.blit(texto_salto, (10, 110))  
+        saltar = 1
+    else:
+        texto_salto = fuente.render("No saltando", True, NEGRO)
+        pantalla.blit(texto_salto, (10, 110))  
+        saltar = 0
+
+
+
+    tecla_izq = 0
+    tecla_no = 0
+    tecla_der = 0
+
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_RIGHT]:
+        texto_direccion = fuente.render("Presionando: Derecha", True, NEGRO)
+        pantalla.blit(texto_direccion, (10, 185))
+        tecla_der = 1
+    elif teclas[pygame.K_LEFT]:
+        texto_direccion = fuente.render("Presionando: Izquierda", True, NEGRO)
+        pantalla.blit(texto_direccion, (10, 185))
+        tecla_izq = 1
+    else:
+        texto_direccion = fuente.render("No presiona Izq. ni Der.", True, NEGRO)
+        pantalla.blit(texto_direccion, (10, 185))
+        tecla_no = 1
+
+
+
+
+    escribir_csv.writerow([
+        nave.x, nave.y,
+        jugador.x, jugador.y,
+        bala.x, bala.y,
+        velocidad_bala,
+        saltar,
+        colision_bala1,
+        bala2.x,bala2.y,
+        velocidad_bala2,
+        tecla_izq,
+        tecla_no,
+        tecla_der,
+
+        ])
+
 
 
 
@@ -192,6 +289,14 @@ def guardar_datos():
     salto_hecho = 1 if salto else 0  # 1 si saltó, 0 si no saltó
     # Guardar velocidad de la bala, distancia al jugador y si saltó o no
     datos_modelo.append((velocidad_bala, distancia, salto_hecho))
+
+
+
+
+
+
+
+
 
 # Función para pausar el juego y guardar los datos
 def pausa_juego():
@@ -296,7 +401,8 @@ def mostrar_menu():
 
 
                 elif boton_mod1.collidepoint(evento.pos):
-                    print("Mod 1 seleccionado")
+                    print("Mod 1 - Regresion Lineal")
+                    
 
                 elif boton_mod2.collidepoint(evento.pos):
                     print("Mod 2 seleccionado")
@@ -310,6 +416,9 @@ def mostrar_menu():
 
 
 
+def mostrar_datos_csv():
+    df = pd.read_csv('datos_entrenamiento.csv')
+    print(df.sample(10))
 
 
 
@@ -328,6 +437,10 @@ def reiniciar_juego():
     en_suelo = True
     # Mostrar los datos recopilados hasta el momento
     print("Datos recopilados para el modelo: ", datos_modelo)
+    mostrar_datos_csv()
+    
+    
+
     mostrar_menu()  # Mostrar el menú de nuevo para seleccionar modo
 
     # Reiniciar bala 2
