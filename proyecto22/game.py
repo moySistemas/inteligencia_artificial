@@ -113,6 +113,8 @@ velocidad_bala2 = random.randint(3, 7)
 bala2_disparada = False
 
 
+#Variables para el modo de juego 
+mod_seleccionado = None
 
 
 
@@ -309,7 +311,7 @@ def pausa_juego():
 
 # Función para mostrar el menú y seleccionar el modo de juego
 def mostrar_menu():
-    global menu_activo, modo_auto
+    global menu_activo, modo_auto, mod_seleccionado
 
     # Botones
     #boton_auto = pygame.Rect(w // 4, h // 2 - 60, 200, 50)
@@ -327,7 +329,7 @@ def mostrar_menu():
     boton_manual = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2, ancho_boton, alto_boton)
     boton_salir = pygame.Rect((w - ancho_boton) // 2, (h - alto_boton) // 2 + 60, ancho_boton, alto_boton)
     #boton_extra = pygame.Rect(10, h - alto_boton - 10, ancho_boton, alto_boton)
-    boton_extra = pygame.Rect(10, h - alto_boton - 10, 100, alto_boton)  # Cambié ancho a 100 para igualar mods
+    boton_extra = pygame.Rect(10, h - alto_boton - 10, 100, alto_boton)  
     boton_mod1 = pygame.Rect(boton_extra.right + 10, boton_extra.top, 100, alto_boton)
     boton_mod2 = pygame.Rect(boton_mod1.right + 10, boton_extra.top, 100, alto_boton)
     boton_mod3 = pygame.Rect(boton_mod2.right + 10, boton_extra.top, 100, alto_boton)
@@ -344,10 +346,24 @@ def mostrar_menu():
         pygame.draw.rect(pantalla, (0, 200, 100), boton_manual)
         pygame.draw.rect(pantalla, (200, 50, 50), boton_salir)
         pygame.draw.rect(pantalla, (50, 101, 221), boton_extra)
-        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod1)
-        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod2)
-        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod3)
-        pygame.draw.rect(pantalla, (50, 101, 221), boton_mod4)
+        #pygame.draw.rect(pantalla, (50, 101, 221), boton_mod1)
+        #pygame.draw.rect(pantalla, (50, 101, 221), boton_mod2)
+        #pygame.draw.rect(pantalla, (50, 101, 221), boton_mod3)
+        #pygame.draw.rect(pantalla, (50, 101, 221), boton_mod4)
+
+        #Definir colores de mod segun su estado
+        COLOR_ACTIVO = (0, 200, 100)     
+        COLOR_INACTIVO = (50, 101, 221)  
+        color_mod1 = COLOR_ACTIVO if mod_seleccionado == "mod1" else COLOR_INACTIVO
+        color_mod2 = COLOR_ACTIVO if mod_seleccionado == "mod2" else COLOR_INACTIVO
+        color_mod3 = COLOR_ACTIVO if mod_seleccionado == "mod3" else COLOR_INACTIVO
+        color_mod4 = COLOR_ACTIVO if mod_seleccionado == "mod4" else COLOR_INACTIVO
+        pygame.draw.rect(pantalla, color_mod1, boton_mod1)
+        pygame.draw.rect(pantalla, color_mod2, boton_mod2)
+        pygame.draw.rect(pantalla, color_mod3, boton_mod3)
+        pygame.draw.rect(pantalla, color_mod4, boton_mod4)
+
+
 
 
 
@@ -386,8 +402,15 @@ def mostrar_menu():
 
             if evento.type == pygame.MOUSEBUTTONDOWN:
                 if boton_auto.collidepoint(evento.pos):
-                    modo_auto = True
-                    menu_activo = False
+                    if mod_seleccionado != None:
+                        modo_auto = True
+                        menu_activo = False
+                    else:
+                        print("Debes seleccionar un Mod antes de activar Modo Auto")
+                       
+
+                
+
                 elif boton_manual.collidepoint(evento.pos):
                     modo_auto = False
                     menu_activo = False
@@ -402,16 +425,21 @@ def mostrar_menu():
 
                 elif boton_mod1.collidepoint(evento.pos):
                     print("Mod 1 - Regresion Lineal")
+                    mod_seleccionado = "mod1"
                     
 
                 elif boton_mod2.collidepoint(evento.pos):
                     print("Mod 2 seleccionado")
+                    mod_seleccionado = "mod2"
+
                     
                 elif boton_mod3.collidepoint(evento.pos):
                     print("Mod 3 seleccionado")
+                    mod_seleccionado = "mod3"
                     
                 elif boton_mod4.collidepoint(evento.pos):
                     print("Mod 4 seleccionado")
+                    mod_seleccionado = "mod4"
 
 
 
